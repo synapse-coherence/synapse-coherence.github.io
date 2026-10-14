@@ -85,9 +85,9 @@
         <path id="wt" class="w w-t" d="M0 84H104"/>
         <path id="wy" class="w w-y" d="M0 144C52 144 56 84 104 84"/>
         <path class="head" d="M102 77L116 84L102 91Z"/>
-        <circle class="ball b-p" r="5" opacity="0"><animateMotion dur="3s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0;1;1" keyTimes="0;0.06;0.38;1" keySplines="0 0 1 1;0.45 0 0.25 1;0 0 1 1"><mpath href="#wp"/></animateMotion><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;0.08;0.34;0.4;1"/></circle>
-        <circle class="ball b-t" r="5" opacity="0"><animateMotion dur="3s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0;1;1" keyTimes="0;0.06;0.38;1" keySplines="0 0 1 1;0.45 0 0.25 1;0 0 1 1"><mpath href="#wt"/></animateMotion><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;0.08;0.34;0.4;1"/></circle>
-        <circle class="ball b-y" r="5" opacity="0"><animateMotion dur="3s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0;1;1" keyTimes="0;0.06;0.38;1" keySplines="0 0 1 1;0.45 0 0.25 1;0 0 1 1"><mpath href="#wy"/></animateMotion><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;0.08;0.34;0.4;1"/></circle>
+        <circle class="ball b-p" r="5" opacity="0"/>
+        <circle class="ball b-t" r="5" opacity="0"/>
+        <circle class="ball b-y" r="5" opacity="0"/>
       </svg>
       <div class="engine">
         <div class="engine-box">
@@ -100,10 +100,11 @@
       <svg class="wire" viewBox="0 0 120 168" width="120" height="168" aria-hidden="true">
         <path id="wg" class="w w-g" d="M0 84H18C56 84 60 44 104 44"/>
         <path id="wc" class="w w-c" d="M18 84C56 84 60 124 104 124"/>
+        <path id="wc-run" class="run" d="M0 84H18C56 84 60 124 104 124"/>
         <path class="head head-g" d="M102 37L116 44L102 51Z"/>
         <path class="head head-c" d="M102 117L116 124L102 131Z"/>
-        <circle class="ball b-g" r="5" opacity="0"><animateMotion dur="3s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0;1;1" keyTimes="0;0.5;0.84;1" keySplines="0 0 1 1;0.45 0 0.25 1;0 0 1 1"><mpath href="#wg"/></animateMotion><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.5;0.53;0.79;0.85;1"/></circle>
-        <circle class="ball b-c" r="5" opacity="0"><animateMotion dur="3s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0;1;1" keyTimes="0;0.5;0.84;1" keySplines="0 0 1 1;0.45 0 0.25 1;0 0 1 1"><mpath href="#wc"/></animateMotion><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;0.6;0.6;0;0" keyTimes="0;0.5;0.53;0.79;0.85;1"/></circle>
+        <circle class="ball b-g" r="5" opacity="0"/>
+        <circle class="ball b-c" r="5" opacity="0"/>
       </svg>
       <div class="outs">
         <div class="out done">
@@ -111,10 +112,10 @@
           <div><b>Simulated controllers</b><small>SLICC for gem5</small></div>
           <span class="tag">Available</span>
         </div>
-        <div class="out next">
+        <div class="out wip">
           <img class="logo" src="assets/img/chipyard.png" alt="Chipyard logo" width="40" height="40">
           <div><b>Hardware controllers</b><small>via Chipyard</small></div>
-          <span class="tag">Next</span>
+          <span class="tag">WIP</span>
         </div>
       </div>
       <figcaption>Write the three specs once. Synapse composes them into verified controllers; a different design means changing one spec, not rewriting a controller.</figcaption>
@@ -259,7 +260,7 @@ just shell-s1_2_3-prebuilt
       </div>
       <div class="way extend">
         <h3>Extend it</h3>
-        <p>Add a protocol, a topology, a policy or a new back end. Hardware controllers through Chipyard are the next back end.</p>
+        <p>Add a protocol, a topology, a policy or a new back end. Hardware controllers through Chipyard are work in progress.</p>
         <ul>
           <li><a href="https://github.com/TUM-DSE/Synapse/pulls">Open a pull request</a></li>
         </ul>
@@ -335,6 +336,56 @@ just shell-s1_2_3-prebuilt
     try { localStorage.setItem('synapse-theme', dark ? 'dark' : 'light'); } catch (e) {}
     label();
   });
+})();
+/* Hero figure: one clock for the whole sequence, so it stays in step.
+   The three spec signals travel and enter Synapse, Synapse pulses, then it emits the controllers,
+   which reach gem5 (available) and Chipyard (work in progress). */
+(function () {
+  var fig = document.querySelector('.flow');
+  if (!fig || !window.requestAnimationFrame || !fig.querySelector('.wire')) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var CYCLE = 3600;                      // ms per loop
+  function q(sel) { return fig.querySelector(sel); }
+  var ins = [['#wp', '.b-p'], ['#wt', '.b-t'], ['#wy', '.b-y']].map(function (a) { return { p: q(a[0]), b: q(a[1]), peak: 1 }; });
+  var outs = [{ p: q('#wg'), b: q('.b-g'), peak: 1 }, { p: q('#wc-run'), b: q('.b-c'), peak: 0.6 }];
+  var engine = q('.engine-box'), done = q('.out.done'), wip = q('.out.wip');
+  function measure(list) {               // hidden wires (narrow screens) cannot be measured in some browsers
+    try { list.forEach(function (o) { o.len = o.p.getTotalLength(); }); return list; } catch (e) { return []; }
+  }
+  ins = measure(ins); outs = measure(outs);
+  function seg(t, a, b) { return Math.min(1, Math.max(0, (t - a) / (b - a))); }
+  function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function move(list, k, alpha) {
+    list.forEach(function (o) {
+      var pt = o.p.getPointAtLength(o.len * k);
+      o.b.setAttribute('cx', pt.x); o.b.setAttribute('cy', pt.y);
+      o.b.setAttribute('opacity', (alpha * o.peak).toFixed(3));
+    });
+  }
+  function pulse(el, k) { if (el) el.style.setProperty('--pulse', k > 0 && k < 1 ? k.toFixed(3) : 0); }
+  function render(t) {                   // t in [0, 1)
+    // 1. inputs: appear, travel, and enter Synapse (they fade only at the arrow head)
+    move(ins, ease(seg(t, 0.04, 0.40)), t < 0.04 ? seg(t, 0, 0.04) : 1 - seg(t, 0.39, 0.43));
+    // 2. Synapse pulses as they arrive
+    pulse(engine, seg(t, 0.41, 0.64));
+    if (engine) engine.style.setProperty('--bump', Math.sin(Math.PI * seg(t, 0.41, 0.52)).toFixed(3));
+    // 3. Synapse emits the controllers
+    move(outs, ease(seg(t, 0.50, 0.82)), t < 0.50 ? 0 : (t < 0.80 ? seg(t, 0.50, 0.53) : 1 - seg(t, 0.80, 0.84)));
+    // 4. they land on gem5 and on Chipyard
+    pulse(done, seg(t, 0.82, 0.98)); pulse(wip, seg(t, 0.82, 0.98));
+  }
+  var t0 = null, on = false;
+  function frame(now) {
+    if (!on) return;
+    if (t0 === null) t0 = now;
+    render(((now - t0) % CYCLE) / CYCLE);
+    requestAnimationFrame(frame);
+  }
+  function start() { if (!on) { on = true; t0 = null; requestAnimationFrame(frame); } }
+  function stop() { on = false; }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) { e[0].isIntersecting ? start() : stop(); }).observe(fig);
+  } else { start(); }
 })();
 document.querySelectorAll('.codeblock .copy').forEach(function (btn) {
   btn.addEventListener('click', function () {

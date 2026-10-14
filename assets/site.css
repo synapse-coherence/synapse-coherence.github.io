@@ -50,8 +50,8 @@
 }
 
 /* logo colours as variables so the inline hero mark follows the theme */
-:root { --glow: 17, 85, 204; --m-ink: #13213C; --m-in: #1155CC; --m-topo: #674EA7; --m-out: #A64D79; }
-:root[data-theme="dark"] { --glow: 134, 174, 242; --m-ink: #E6ECF5; --m-in: #6D9EEB; --m-topo: #B4A7D6; --m-out: #D5A6BD; }
+:root { --ok-rgb: 46, 107, 31; --muted-rgb: 91, 101, 119; --glow: 17, 85, 204; --m-ink: #13213C; --m-in: #1155CC; --m-topo: #674EA7; --m-out: #A64D79; }
+:root[data-theme="dark"] { --ok-rgb: 155, 207, 138; --muted-rgb: 163, 175, 194; --glow: 134, 174, 242; --m-ink: #E6ECF5; --m-in: #6D9EEB; --m-topo: #B4A7D6; --m-out: #D5A6BD; }
 body, .site-head, .section, .site-foot, .spec, .out, .scn, .stage, .btn { transition: background-color .25s ease, border-color .25s ease, color .25s ease; }
 
 /* theme toggle */
@@ -65,7 +65,8 @@ body, .site-head, .section, .site-foot, .spec, .out, .scn, .stage, .btn { transi
 [data-theme="dark"] .theme-toggle .sun { display: block; }
 
 /* motion: messages crossing the synaptic cleft in the logo, and the three specs fusing in Synapse.
-   Both loops last 3 s; nothing moves when the visitor asks for reduced motion. */
+   The logo loop is CSS (3 s); the figure is driven by one clock in index.html (3.6 s).
+   Nothing moves when the visitor asks for reduced motion. */
 .hero-mark svg { width: 100%; height: auto; display: block; }
 @media (prefers-reduced-motion: no-preference) {
   .hero-mark .msg { animation: fire 3s cubic-bezier(.45, 0, .25, 1) infinite; }
@@ -73,7 +74,6 @@ body, .site-head, .section, .site-foot, .spec, .out, .scn, .stage, .btn { transi
   .hero-mark .m3 { animation-delay: .12s; }
   .hero-mark .bulb { animation: charge 3s ease-in-out infinite; transform-origin: 44px 50px; }
   .hero-mark .cup { animation: receive 3s ease-out infinite; }
-  .engine-box { animation: fuse 3s ease-out infinite; }
 }
 @media (prefers-reduced-motion: reduce) {
   .wire .ball { display: none; }
@@ -88,12 +88,6 @@ body, .site-head, .section, .site-foot, .spec, .out, .scn, .stage, .btn { transi
 }
 @keyframes charge { 0%, 52% { transform: scale(1); } 58% { transform: scale(1.14); } 68%, 100% { transform: scale(1); } }
 @keyframes receive { 0%, 48% { stroke-width: 6; } 54% { stroke-width: 7.6; } 64%, 100% { stroke-width: 6; } }
-/* the engine glows when the three spec signals arrive (38% of the loop) */
-@keyframes fuse {
-  0%, 36% { box-shadow: 0 0 0 0 rgba(var(--glow), 0); }
-  42% { box-shadow: 0 0 0 6px rgba(var(--glow), .3); }
-  58%, 100% { box-shadow: 0 0 0 18px rgba(var(--glow), 0); }
-}
 
 /* author links */
 .people a { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--line); padding-bottom: 2px; }
@@ -158,16 +152,22 @@ img { display: block; max-width: 100%; height: auto; }
 .engine { text-align: center; }
 .engine-box { display: inline-flex; align-items: center; gap: 12px; padding: 18px 26px; border-radius: 12px; background: var(--ink); color: var(--bg); font-size: 26px; font-weight: 600; letter-spacing: -0.01em; }
 .engine-box img { width: 44px; height: 44px; }
+/* pulses set by the figure script: --pulse runs 0 -> 1 once per loop, the ring grows and fades */
+.engine-box, .out { --pulse: 0; --bump: 0; }
+.engine-box { transform: scale(calc(1 + var(--bump) * .04)); box-shadow: 0 0 0 calc(var(--pulse) * 18px) rgba(var(--glow), calc((1 - var(--pulse)) * .45)); }
+.out.done { box-shadow: 0 0 0 calc(var(--pulse) * 12px) rgba(var(--ok-rgb), calc((1 - var(--pulse)) * .4)); }
+.out.wip { box-shadow: 0 0 0 calc(var(--pulse) * 12px) rgba(var(--muted-rgb), calc((1 - var(--pulse)) * .25)); }
+.wire .run { fill: none; stroke: none; }
 .outs { display: flex; flex-direction: column; justify-content: center; gap: 16px; height: 168px; }
 .out { height: 64px; display: flex; align-items: center; gap: 14px; border-radius: 10px; padding: 0 16px; }
 .out .logo { width: 40px; height: 40px; flex-shrink: 0; background: #FFFFFF; border-radius: 8px; padding: 4px; }
 .out b { display: block; font-weight: 600; line-height: 1.3; font-size: 16px; white-space: nowrap; }
 .out small { display: block; font-size: 15px; color: var(--ink-2); }
 .out.done { border: 2px solid var(--ok); }
-.out.next { border: 2px dashed var(--muted); }
+.out.wip { border: 2px dashed var(--muted); }
 .out .tag { margin-left: auto; font-size: 13px; font-weight: 600; white-space: nowrap; }
 .out.done .tag { color: var(--ok); }
-.out.next .tag { color: var(--muted); }
+.out.wip .tag { color: var(--muted); }
 
 /* sections */
 .section { padding: 72px 0; border-top: 1px solid var(--line); }
