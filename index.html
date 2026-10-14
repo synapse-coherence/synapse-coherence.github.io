@@ -48,18 +48,9 @@
 <section class="hero">
   <div class="wrap">
     <div class="hero-top">
-      <div>
-        <h1>Synapse</h1>
-        <p class="tagline"><span>Decoupling Protocol, Topology, and Policy</span> <span>for Automated Synthesis of Coherence Controllers</span></p>
-        <div class="actions">
-          <!-- TODO: put the camera-ready PDF at paper/synapse-micro26.pdf, or point to the ACM DL page -->
-          <a class="btn primary" href="paper/synapse-micro26.pdf">Read the paper</a>
-          <a class="btn" href="https://github.com/TUM-DSE/Synapse">Get the code</a>
-          <a class="btn" href="#try">Run the artifact</a>
-        </div>
-      </div>
-      <div class="hero-mark" aria-hidden="true">
-        <svg viewBox="0 0 100 100" width="260" height="260">
+      <div class="hero-text">
+        <h1 class="lockup"><span class="hero-mark" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
           <rect x="20" y="20" width="60" height="60" rx="9" fill="none" stroke="var(--m-ink)" stroke-width="5"/>
           <path d="M35 9V20M50 9V20M65 9V20M35 80V91M50 80V91M65 80V91M9 35H20M9 65H20M80 35H91M80 65H91" fill="none" stroke="var(--m-ink)" stroke-width="5" stroke-linecap="round"/>
           <path d="M9 50H36" fill="none" stroke="var(--m-in)" stroke-width="5" stroke-linecap="round"/>
@@ -69,9 +60,28 @@
           <g transform="rotate(-30 44 50)"><circle class="msg m1" cx="55" cy="50" r="2" fill="var(--m-in)"/></g>
           <g><circle class="msg m2" cx="55" cy="50" r="2" fill="var(--m-topo)"/></g>
           <g transform="rotate(30 44 50)"><circle class="msg m3" cx="55" cy="50" r="2" fill="var(--m-out)"/></g>
-        </svg>
+        </svg></span>Synapse</h1>
+        <p class="tagline"><span>Decoupling Protocol, Topology, and Policy</span> <span>for Automated Synthesis of Coherence Controllers</span></p>
+        <div class="actions">
+          <!-- TODO: put the camera-ready PDF at paper/synapse-micro26.pdf, or point to the ACM DL page -->
+          <a class="btn primary" href="paper/synapse-micro26.pdf">Read the paper</a>
+          <a class="btn" href="https://github.com/TUM-DSE/Synapse">Get the code</a>
+          <a class="btn" href="#try">Run the artifact</a>
+        </div>
       </div>
+      <!-- the demo opens in a dialog at full size; without JS the link plays the MP4 directly -->
+      <a class="demo" href="assets/video/synapse-demo.mp4" aria-haspopup="dialog">
+        <img src="assets/img/demo-thumb.webp" alt="Terminal: Synapse generating the controllers of a multi-host CXL system" width="960" height="540">
+        <span class="demo-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
+        <span class="demo-label"><span>Watch the demo</span><span class="demo-time">4:37</span></span>
+      </a>
     </div>
+    <dialog class="demo-dialog" aria-label="Synapse demo">
+      <button class="demo-close" type="button" aria-label="Close the demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <video controls playsinline preload="none" poster="assets/video/synapse-demo-poster.webp" width="1854" height="1040">
+        <source src="assets/video/synapse-demo.mp4" type="video/mp4">
+      </video>
+    </dialog>
 
     <figure class="flow">
       <div class="specs">
@@ -386,6 +396,22 @@ just shell-s1_2_3-prebuilt
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (e) { e[0].isIntersecting ? start() : stop(); }).observe(fig);
   } else { start(); }
+})();
+// demo: the thumbnail opens the video in a modal dialog; closing it pauses the video
+(function () {
+  var link = document.querySelector('.demo');
+  var dlg = document.querySelector('.demo-dialog');
+  if (!link || !dlg || typeof dlg.showModal !== 'function') return;
+  var video = dlg.querySelector('video');
+  link.addEventListener('click', function (e) {
+    e.preventDefault();
+    dlg.showModal();
+    var p = video.play();
+    if (p && p.catch) p.catch(function () {});
+  });
+  dlg.querySelector('.demo-close').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('close', function () { video.pause(); link.focus(); });
 })();
 document.querySelectorAll('.codeblock .copy').forEach(function (btn) {
   btn.addEventListener('click', function () {

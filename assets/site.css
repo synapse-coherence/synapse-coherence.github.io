@@ -118,11 +118,30 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* hero */
 .hero { padding: 64px 0 72px; }
-.hero-top { display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+/* text on the left at its natural width, the demo takes the rest of the row */
+.hero-top { display: grid; grid-template-columns: max-content minmax(0, 1fr); align-items: center; gap: 48px; }
 .hero h1 { font-size: clamp(56px, 9vw, 96px); line-height: 1; letter-spacing: -0.03em; font-weight: 600; margin: 0 0 16px; }
-.tagline { font-size: clamp(20px, 2.6vw, 32px); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; color: var(--ink-2); margin: 0 0 32px; }
-.tagline span { display: block; }   /* the paper title on two lines, split as on the slides */
-.hero-mark { flex-shrink: 0; width: 260px; }
+.hero h1.lockup { display: flex; align-items: center; gap: .14em; }   /* mark and name side by side, as on the title slide */
+.tagline { font-size: clamp(20px, 1.9vw, 26px); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; color: var(--ink-2); margin: 0 0 32px; }
+.tagline span { display: block; white-space: nowrap; }   /* the paper title on two lines, split as on the slides */
+.hero-mark { flex-shrink: 0; width: 1em; height: 1em; }
+
+/* demo: thumbnail with a play button; the video itself opens in a dialog */
+.demo { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #2C1F2A; border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(19, 33, 60, .08), 0 14px 36px rgba(19, 33, 60, .18); color: #fff; text-decoration: none; }
+.demo img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+.demo-play { position: absolute; left: 50%; top: 50%; width: 72px; height: 72px; margin: -36px 0 0 -36px; border-radius: 50%; background: rgba(255, 255, 255, .94); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(0, 0, 0, .35); transition: transform .2s ease; }
+.demo-play svg { width: 30px; height: 30px; margin-left: 4px; fill: #1155CC; }
+.demo-label { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; padding: 32px 16px 12px; background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .78)); font-weight: 600; font-size: 16px; }
+.demo-time { font-family: var(--mono); font-weight: 500; }
+.demo:hover { text-decoration: none; }
+.demo:hover img { transform: scale(1.03); }
+.demo:hover .demo-play { transform: scale(1.08); }
+.demo-dialog { padding: 0; border: 0; border-radius: 10px; background: #000; width: min(94vw, 160vh, 1854px); max-width: none; max-height: none; overflow: hidden; }
+.demo-dialog::backdrop { background: rgba(8, 14, 26, .85); }
+.demo-dialog video { display: block; width: 100%; height: auto; }
+.demo-close { position: absolute; top: 10px; right: 10px; z-index: 1; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 8px; background: rgba(0, 0, 0, .6); color: #fff; cursor: pointer; }
+.demo-close:hover { background: rgba(0, 0, 0, .85); }
+.demo-close svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 8px; font-weight: 600; font-size: 17px; text-decoration: none; border: 2px solid var(--ink); color: var(--ink); background: transparent; }
 .btn:hover { background: var(--bg-alt); text-decoration: none; }
@@ -238,16 +257,20 @@ img { display: block; max-width: 100%; height: auto; }
 .site-foot .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; align-items: center; justify-content: space-between; }
 .site-foot img { width: 160px; }
 
-@media (max-width: 1000px) {
-  .scenarios { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 900px) {
-  .hero-mark { display: none; }
+/* below this width the five-column figure no longer fits: stack it */
+@media (max-width: 1100px) {
   .wire { display: none; }
   .flow { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .specs, .outs { height: auto; gap: 12px; }
   .arrow-v { display: block; position: relative; width: 2px; height: 36px; margin: 12px auto; background: var(--ink); }
   .arrow-v::after { content: ""; position: absolute; left: -6px; bottom: -2px; border: 7px solid transparent; border-top: 10px solid var(--ink); border-bottom: 0; }
+}
+@media (max-width: 1000px) {
+  .scenarios { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-top { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .demo { max-width: 600px; }
+}
+@media (max-width: 900px) {
   .pipeline { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .stage { margin-right: 0; }
   .stage:not(:last-child)::after { right: auto; left: 40px; top: auto; bottom: -30px; width: 2px; height: 28px; }
@@ -263,4 +286,8 @@ img { display: block; max-width: 100%; height: auto; }
   .hero { padding: 44px 0 56px; }
   .section { padding: 56px 0; }
   .scenarios { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .tagline span { white-space: normal; }
+  .demo-play { width: 60px; height: 60px; margin: -30px 0 0 -30px; }
 }
