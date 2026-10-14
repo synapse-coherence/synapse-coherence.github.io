@@ -120,7 +120,8 @@ img { display: block; max-width: 100%; height: auto; }
 .hero { padding: 64px 0 72px; }
 .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 48px; }
 .hero h1 { font-size: clamp(56px, 9vw, 96px); line-height: 1; letter-spacing: -0.03em; font-weight: 600; margin: 0 0 16px; }
-.tagline { font-size: clamp(24px, 3vw, 32px); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; color: var(--ink-2); margin: 0 0 32px; max-width: 30ch; }
+.tagline { font-size: clamp(20px, 2.6vw, 32px); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; color: var(--ink-2); margin: 0 0 32px; }
+.tagline span { display: block; }   /* the paper title on two lines, split as on the slides */
 .hero-mark { flex-shrink: 0; width: 260px; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 8px; font-weight: 600; font-size: 17px; text-decoration: none; border: 2px solid var(--ink); color: var(--ink); background: transparent; }
