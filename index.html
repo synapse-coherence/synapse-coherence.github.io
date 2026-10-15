@@ -33,7 +33,7 @@
         <a href="#try">Try it</a>
         <a href="#build">Contribute</a>
         <a href="#cite">Cite</a>
-        <a href="https://github.com/TUM-DSE/Synapse">GitHub</a>
+        <a href="https://github.com/NicCarp11/Synapse">GitHub</a>
       </nav>
       <button class="theme-toggle" type="button" aria-label="Switch to dark theme">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
@@ -54,7 +54,7 @@
         <div class="actions">
           <!-- TODO: put the camera-ready PDF at paper/synapse-micro26.pdf, or point to the ACM DL page -->
           <a class="btn primary" href="paper/synapse-micro26.pdf">Read the paper</a>
-          <a class="btn" href="https://github.com/TUM-DSE/Synapse">Get the code</a>
+          <a class="btn" href="https://github.com/NicCarp11/Synapse">Get the code</a>
           <a class="btn" href="#try">Run the artifact</a>
           <!-- opens the demo in a dialog; without JS the link plays the MP4 directly -->
           <a class="btn demo-btn" href="assets/video/synapse-demo.mp4?v=2" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>Watch the demo</a>
@@ -189,7 +189,21 @@
 <section class="section alt" id="try">
   <div class="wrap">
     <h2>Try it</h2>
-    <p class="intro">The artifact reproduces every experiment in the paper. Start with the prebuilt Docker image; the functional test finishes in under a minute.</p>
+    <p class="intro">Generate controllers for your own hierarchy with the Synapse generator, or reproduce every experiment in the paper with the artifact.</p>
+    <h3>Generate controllers</h3>
+    <div class="quick">
+      <div class="codeblock">
+<pre><code>git clone https://github.com/NicCarp11/Synapse
+cd Synapse
+pip install -r requirements.txt
+python synapse.py generate specs/topologies/smp.yaml --out out/smp</code></pre>
+        <button class="copy" type="button">Copy</button>
+      </div>
+      <p class="note">Python 3.10 or newer. <code>generate</code> writes the SLICC controllers and the gem5 setup of the system; <code>verify</code> model-checks them with CMurphi.</p>
+    </div>
+
+    <h3>Reproduce the paper</h3>
+    <p class="note" style="margin-bottom: 12px">Start with the prebuilt Docker image; the functional test finishes in under a minute.</p>
     <div class="quick">
       <div class="codeblock">
 <pre><code>git clone https://github.com/TUM-DSE/Synapse
@@ -259,25 +273,24 @@ just shell-s1_2_3-prebuilt
     <div class="ways">
       <div class="way use">
         <h3>Use it</h3>
-        <p>Reproduce the paper with the artifact, then generate controllers for your own hierarchy. The generator is being added to the repository.</p>
+        <p>Generate controllers for your own hierarchy, or reproduce the paper with the artifact.</p>
         <ul>
+          <li><a href="https://github.com/NicCarp11/Synapse">Get the generator</a></li>
           <li><a href="#try">Run the artifact</a></li>
-          <!-- TODO: point to the generator docs once it is in TUM-DSE/Synapse -->
-          <li><a href="https://github.com/TUM-DSE/Synapse">Watch for the generator release</a></li>
         </ul>
       </div>
       <div class="way extend">
         <h3>Extend it</h3>
         <p>Add a protocol, a topology, a policy or a new back end. Hardware controllers through Chipyard are work in progress.</p>
         <ul>
-          <li><a href="https://github.com/TUM-DSE/Synapse/pulls">Open a pull request</a></li>
+          <li><a href="https://github.com/NicCarp11/Synapse/pulls">Open a pull request</a></li>
         </ul>
       </div>
       <div class="way share">
         <h3>Share it</h3>
         <p>Report a bug, ask for a protocol you need, or tell us what you built with Synapse.</p>
         <ul>
-          <li><a href="https://github.com/TUM-DSE/Synapse/issues">Open an issue</a></li>
+          <li><a href="https://github.com/NicCarp11/Synapse/issues">Open an issue</a></li>
           <li><a href="mailto:nicolo.carpentieri@tum.de">Write to us</a></li>
         </ul>
       </div>
@@ -326,7 +339,7 @@ just shell-s1_2_3-prebuilt
   <div class="wrap">
     <img class="only-light" src="assets/img/synapse-lockup.svg" alt="Synapse" width="160" height="36">
     <img class="only-dark" src="assets/img/synapse-lockup-dark.svg" alt="Synapse" width="160" height="36">
-    <p style="margin:0">Open source under the MIT license. Code at <a href="https://github.com/TUM-DSE/Synapse">TUM-DSE/Synapse</a>.</p>
+    <p style="margin:0">Open source under the MIT license. Code at <a href="https://github.com/NicCarp11/Synapse">NicCarp11/Synapse</a>, artifact at <a href="https://github.com/TUM-DSE/Synapse">TUM-DSE/Synapse</a>.</p>
   </div>
 </footer>
 
