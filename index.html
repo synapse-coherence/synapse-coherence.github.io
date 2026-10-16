@@ -15,7 +15,7 @@
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261016a">
+<link rel="stylesheet" href="assets/site.css?v=20261016b">
 <script>try { if (localStorage.getItem('synapse-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
 </head>
 <body>
@@ -203,12 +203,8 @@ python synapse.py generate specs/topologies/smp.yaml --out out/smp</code></pre>
     </div>
 
     <h3>Reproduce the paper</h3>
-    <a class="badges" href="https://www.acm.org/publications/policies/artifact-review-and-badging-current" aria-label="ACM artifact badges awarded to Synapse">
-      <img src="assets/img/acm-artifacts-available.png" alt="ACM badge: Artifacts Available v1.1" width="84" height="84">
-      <img src="assets/img/acm-artifacts-evaluated-functional.png" alt="ACM badge: Artifacts Evaluated, Functional v1.1" width="84" height="84">
-      <img src="assets/img/acm-results-reproduced.png" alt="ACM badge: Results Reproduced v1.1" width="84" height="84">
-    </a>
     <p class="note" style="margin-bottom: 12px">Start with the prebuilt Docker image; the functional test finishes in under a minute.</p>
+    <div class="repro">
     <div class="quick">
       <div class="codeblock">
 <pre><code>git clone https://github.com/TUM-DSE/Synapse
@@ -221,6 +217,12 @@ just shell-s1_2_3-prebuilt
         <button class="copy" type="button">Copy</button>
       </div>
       <p class="note">Any x86-64 machine with Docker. Plan for about 12 GB of RAM per concurrent simulation. <code>just</code> is optional: every shortcut maps to a script in the repository.</p>
+    </div>
+      <a class="badges" href="https://www.acm.org/publications/policies/artifact-review-and-badging-current" aria-label="ACM artifact badges awarded to Synapse">
+        <img src="assets/img/acm-artifacts-available.png" alt="ACM badge: Artifacts Available v1.1" width="96" height="96">
+        <img src="assets/img/acm-artifacts-evaluated-functional.png" alt="ACM badge: Artifacts Evaluated, Functional v1.1" width="96" height="96">
+        <img src="assets/img/acm-results-reproduced.png" alt="ACM badge: Results Reproduced v1.1" width="96" height="96">
+      </a>
     </div>
 
     <h3 style="margin-bottom: 20px">Four scenarios from the paper</h3>
