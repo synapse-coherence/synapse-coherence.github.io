@@ -127,11 +127,19 @@ img { display: block; max-width: 100%; height: auto; }
 /* demo: a fourth button; the video opens in a dialog over the page */
 .demo-btn { gap: 10px; }
 .demo-btn svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
-.demo-dialog { padding: 0; border: 0; border-radius: 10px; background: #000; width: min(94vw, 160vh, 1854px); max-width: none; max-height: none; overflow: hidden; }
+.demo-dialog { padding: 0; border: 0; border-radius: 10px; background: #000; width: min(94vw, calc((94vh - 56px) * 1.77), 1856px); max-width: none; max-height: none; overflow: hidden; }
 .demo-dialog::backdrop { background: rgba(8, 14, 26, .85); }
 .demo-dialog video { display: block; width: 100%; height: auto; }
-.demo-close { position: absolute; top: 10px; right: 10px; z-index: 1; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 8px; background: rgba(0, 0, 0, .6); color: #fff; cursor: pointer; }
-.demo-close:hover { background: rgba(0, 0, 0, .85); }
+.demo-dialog video[hidden] { display: none; }
+.demo-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 12px; }
+.demo-tabs { display: flex; gap: 8px; min-width: 0; }
+.demo-tabs button { min-height: 40px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, .28); border-radius: 8px; background: transparent; color: rgba(255, 255, 255, .78); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.demo-tabs button span { font-weight: 400; opacity: .7; margin-left: 4px; }
+.demo-tabs button:hover { color: #fff; border-color: rgba(255, 255, 255, .5); }
+.demo-tabs button[aria-selected="true"] { background: #fff; border-color: #fff; color: #000; }
+.demo-tabs button:focus-visible, .demo-close:focus-visible { outline: 2px solid #8ab4f8; outline-offset: 2px; }
+.demo-close { flex-shrink: 0; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 8px; background: rgba(255, 255, 255, .1); color: #fff; cursor: pointer; }
+.demo-close:hover { background: rgba(255, 255, 255, .22); }
 .demo-close svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 8px; font-weight: 600; font-size: 17px; text-decoration: none; border: 2px solid var(--ink); color: var(--ink); background: transparent; }

@@ -15,7 +15,7 @@
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261016b">
+<link rel="stylesheet" href="assets/site.css?v=20261018a">
 <script>try { if (localStorage.getItem('synapse-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
 </head>
 <body>
@@ -57,7 +57,7 @@
           <a class="btn" href="https://github.com/NicCarp11/Synapse">Get the code</a>
           <a class="btn" href="#try">Run the artifact</a>
           <!-- opens the demo in a dialog; without JS the link plays the MP4 directly -->
-          <a class="btn demo-btn" href="assets/video/synapse-demo.mp4?v=2" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>Watch the demo</a>
+          <a class="btn demo-btn" href="assets/video/synapse-demo-short.mp4?v=1" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>Watch the demo</a>
         </div>
       </div>
       <div class="hero-mark" aria-hidden="true">
@@ -74,9 +74,19 @@
         </svg>
       </div>
     </div>
+    <!-- two demos: the short one (default, used in the talk) and the full walkthrough; #demo-short / #demo-full open them directly -->
     <dialog class="demo-dialog" aria-label="Synapse demo">
-      <button class="demo-close" type="button" aria-label="Close the demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-      <video controls playsinline preload="none" poster="assets/video/synapse-demo-poster.webp?v=2" width="1854" height="1040">
+      <div class="demo-bar">
+        <div class="demo-tabs" role="tablist" aria-label="Demo length">
+          <button type="button" role="tab" id="tab-demo-short" aria-controls="demo-short" aria-selected="true">Short version <span>1:46</span></button>
+          <button type="button" role="tab" id="tab-demo-full" aria-controls="demo-full" aria-selected="false" tabindex="-1">Full version <span>3:59</span></button>
+        </div>
+        <button class="demo-close" type="button" aria-label="Close the demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <video id="demo-short" role="tabpanel" aria-labelledby="tab-demo-short" controls playsinline muted preload="none" poster="assets/video/synapse-demo-short-poster.webp?v=1" width="1856" height="1048">
+        <source src="assets/video/synapse-demo-short.mp4?v=1" type="video/mp4">
+      </video>
+      <video id="demo-full" role="tabpanel" aria-labelledby="tab-demo-full" hidden controls playsinline muted preload="none" poster="assets/video/synapse-demo-poster.webp?v=2" width="1854" height="1040">
         <source src="assets/video/synapse-demo.mp4?v=2" type="video/mp4">
       </video>
     </dialog>
@@ -415,21 +425,49 @@ just shell-s1_2_3-prebuilt
     new IntersectionObserver(function (e) { e[0].isIntersecting ? start() : stop(); }).observe(fig);
   } else { start(); }
 })();
-// demo: the button opens the video in a modal dialog; closing it pauses the video
+// demo: the button opens a modal dialog with two tabs (short = default, full);
+// switching tab pauses the other video, closing the dialog pauses both.
+// #demo or #demo-short opens the short version on load, #demo-full the full one.
 (function () {
   var link = document.querySelector('.demo-btn');
   var dlg = document.querySelector('.demo-dialog');
   if (!link || !dlg || typeof dlg.showModal !== 'function') return;
-  var video = dlg.querySelector('video');
-  link.addEventListener('click', function (e) {
-    e.preventDefault();
-    dlg.showModal();
-    var p = video.play();
-    if (p && p.catch) p.catch(function () {});
+  var tabs = Array.prototype.slice.call(dlg.querySelectorAll('[role="tab"]'));
+  var videos = Array.prototype.slice.call(dlg.querySelectorAll('video'));
+  function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+  function select(tab) {
+    var shown = null;
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      var v = document.getElementById(t.getAttribute('aria-controls'));
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      if (on) { v.hidden = false; shown = v; } else { v.pause(); v.hidden = true; }
+    });
+    return shown;
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { play(select(t)); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      n.focus(); play(select(n));
+    });
   });
+  function open(full) {
+    var v = select(tabs[full ? 1 : 0]);
+    dlg.showModal();
+    play(v);
+  }
+  link.addEventListener('click', function (e) { e.preventDefault(); open(false); });
   dlg.querySelector('.demo-close').addEventListener('click', function () { dlg.close(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
-  dlg.addEventListener('close', function () { video.pause(); link.focus(); });
+  dlg.addEventListener('close', function () {
+    videos.forEach(function (v) { v.pause(); });
+    if (/^#demo/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
+    link.focus();
+  });
+  if (/^#demo(-short|-full)?$/.test(location.hash)) open(location.hash === '#demo-full');
 })();
 document.querySelectorAll('.codeblock .copy').forEach(function (btn) {
   btn.addEventListener('click', function () {
