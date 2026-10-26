@@ -144,7 +144,7 @@
 <section class="section alt">
   <div class="wrap"><div class="prose">
     <h2>Why</h2>
-    <p>Every new architecture needs new coherence controllers: a second socket, an accelerator, a CXL memory pool. Today each one is written by hand, as a state machine full of transient states, and then debugged and verified on its own. The protocol, the place in the hierarchy and the cache policy are tangled together in the same code, so changing one of them means starting over.</p>
+    <p>Every new architecture needs new coherence controllers: a second socket, an accelerator, a CXL memory pool. Today each one is written by hand, as a state machine full of transient states, then debugged and verified on its own. The protocol, the position in the hierarchy and the cache policy are tangled in the same code, so changing one means starting over.</p>
     <p>Synapse keeps the three apart. You write them once, and recombine them for every new design.</p>
   </div></div>
 </section>
@@ -274,7 +274,6 @@ just shell-s1_2_3-prebuilt
         </dl>
       </article>
     </div>
-    <p class="note" style="margin-top: 16px">The chiplet scenario runs on its own image, <code>carpeniem/synapse-artifact-s4</code>.</p>
   </div>
 </section>
 
@@ -319,7 +318,7 @@ just shell-s1_2_3-prebuilt
 <pre><code>@inproceedings{carpentieri2026synapse,
   title     = {Decoupling Protocol, Topology, and Policy for
                Automated Synthesis of Coherence Controllers},
-  author    = {Carpentieri, Nicol{\`o} and Lefort, Anatole and Schall, David
+  author    = {Carpentieri, Nicolo and Lefort, Anatole and Schall, David
                and Pritzi, Julian and Bhatotia, Pramod},
   booktitle = {Proceedings of the 59th IEEE/ACM International
                Symposium on Microarchitecture (MICRO)},
