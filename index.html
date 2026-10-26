@@ -242,41 +242,36 @@ just shell-s1_2_3-prebuilt
         <h3>SMP</h3>
         <p>Synthesized controllers against gem5's hand-written ones.</p>
         <dl>
-          <dt>On-core</dt><dd><span class="chip">MESI</span><span class="chip">MOESI</span></dd>
-          <dt>Off-core</dt><dd>single node</dd>
+          <dt>Protocols</dt><dd><span class="chip">MESI</span><span class="chip">MOESI</span></dd>
+          <dt>Policy</dt><dd><span class="chip policy">WB-INCL</span></dd>
         </dl>
-        <div class="run"><code>just fig8</code><span>Fig. 8 · gem5 v23</span></div>
       </article>
       <article class="scn">
         <svg viewBox="0 0 64 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="6" y="2" width="16" height="16" rx="3"/><rect x="42" y="2" width="16" height="16" rx="3"/><rect x="6" y="28" width="16" height="16" rx="3"/><rect x="42" y="28" width="16" height="16" rx="3"/><path d="M22 10H42M22 36H42M14 18V28M50 18V28"/></svg>
         <h3>NUMA</h3>
-        <p>Which off-core protocol to use across four sockets.</p>
+        <p>Which protocol to use across four sockets.</p>
         <dl>
-          <dt>On-core</dt><dd><span class="chip">MESI</span></dd>
-          <dt>Off-core</dt><dd><span class="chip">MESI</span><span class="chip">MOESI</span><span class="chip">MESIF incl.</span><span class="chip">MESIF excl.</span></dd>
+          <dt>Protocols</dt><dd><span class="chip">MESI</span><span class="chip">MOESI</span><span class="chip">MESIF</span></dd>
+          <dt>Policy</dt><dd><span class="chip policy">WB-INCL</span><span class="chip policy">WB-EXCL</span></dd>
         </dl>
-        <div class="run"><code>just fig9</code><span>Fig. 9 · gem5 v23</span></div>
       </article>
       <article class="scn">
         <svg viewBox="0 0 64 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="2" width="14" height="14" rx="3"/><rect x="25" y="2" width="14" height="14" rx="3"/><rect x="46" y="2" width="14" height="14" rx="3"/><rect x="6" y="32" width="52" height="12" rx="3"/><path d="M11 16V32M32 16V32M53 16V32"/></svg>
         <h3>Multi-host CXL</h3>
         <p>Which protocol the bridge between hosts should speak, on YCSB-C.</p>
         <dl>
-          <dt>On-core</dt><dd><span class="chip">MESI</span></dd>
-          <dt>Off-core</dt><dd><span class="chip">MESI</span><span class="chip">MOESI</span><span class="chip">MESIF</span><span class="chip">CXL</span></dd>
+          <dt>Protocols</dt><dd><span class="chip">MESI</span><span class="chip">MOESI</span><span class="chip">MESIF</span><span class="chip">CXL</span></dd>
+          <dt>Policy</dt><dd><span class="chip policy">WB-INCL</span></dd>
         </dl>
-        <div class="run"><code>just fig10</code><span>Fig. 10 · gem5 v23</span></div>
       </article>
       <article class="scn">
         <svg viewBox="0 0 64 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="30" height="40" rx="4"/><rect x="42" y="4" width="18" height="16" rx="3"/><rect x="42" y="28" width="18" height="16" rx="3"/><path d="M34 12H42M34 36H42"/></svg>
         <h3>Heterogeneous chiplets</h3>
         <p>Write-back against write-through accelerator chiplets.</p>
         <dl>
-          <dt>On-core</dt><dd><span class="chip">MESI-RC</span></dd>
-          <dt>Off-core</dt><dd><span class="chip">MESI</span><span class="chip">CXL</span></dd>
-          <dt>Policy</dt><dd><span class="chip policy">WB</span><span class="chip policy">WT</span></dd>
+          <dt>Protocols</dt><dd><span class="chip">MESI</span><span class="chip">CXL</span></dd>
+          <dt>Policy</dt><dd><span class="chip policy">WB-INCL</span><span class="chip policy">WT-INCL</span></dd>
         </dl>
-        <div class="run"><code>just fig11</code><span>Fig. 11 · gem5 v20</span></div>
       </article>
     </div>
     <p class="note" style="margin-top: 16px">The chiplet scenario runs on its own image, <code>carpeniem/synapse-artifact-s4</code>.</p>
