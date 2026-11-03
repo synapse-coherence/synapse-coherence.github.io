@@ -289,3 +289,5 @@ img { display: block; max-width: 100%; height: auto; }
   .section { padding: 56px 0; }
   .scenarios { grid-template-columns: minmax(0, 1fr); }
 }
+.people .venue { font-weight: 400; font-size: 16px; color: var(--muted); margin-left: 6px; }
+.credits { margin-bottom: 20px; }
