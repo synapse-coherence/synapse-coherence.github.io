@@ -206,6 +206,11 @@
 <pre><code>git clone https://github.com/NicCarp11/Synapse
 cd Synapse
 pip install -r requirements.txt
+
+<span class="cmt"># the SLICC back end</span>
+git clone -b slicc https://github.com/Errare-humanum-est/HeteroGen ../HeteroGen
+cp -r ../HeteroGen/Backend/SLICC/. Backend/SLICC/
+
 python synapse.py generate specs/topologies/smp.yaml --out out/smp</code></pre>
         <button class="copy" type="button">Copy</button>
       </div>
@@ -334,7 +339,7 @@ just shell-s1_2_3-prebuilt
 <section class="section" id="credits">
   <div class="wrap">
     <h2>Acknowledgments</h2>
-    <p class="intro">Synapse builds on ProtoGen, HieraGen and HeteroGen (Nicolai Oswald et al., The University of Edinburgh) and on vCXLGen (Anatole Lefort et al., Technical University of Munich). The Synapse repository is directly derived from their code.</p>
+    <p class="intro">Synapse builds on ProtoGen, HieraGen and HeteroGen (Nicolai Oswald et al., The University of Edinburgh) and on vCXLGen (Anatole Lefort et al., Technical University of Munich). The Synapse repository is directly derived from their code. The original SLICC back end work was performed by Nicolai Oswald and Theo Olausson at The University of Edinburgh and was used in the HeteroGen publication; it is available on the <a href="https://github.com/Errare-humanum-est/HeteroGen/tree/slicc"><code>slicc</code> branch of HeteroGen</a>.</p>
     <ul class="people credits">
       <li><a href="https://github.com/Errare-humanum-est/ProtoGen">ProtoGen</a> <span class="venue">ISCA 2018</span></li>
       <li><a href="https://github.com/Errare-humanum-est/HieraGen">HieraGen</a> <span class="venue">ISCA 2020</span></li>
@@ -353,7 +358,6 @@ just shell-s1_2_3-prebuilt
       <li><a href="https://anatolelefort.net/">Anatole Lefort</a></li>
       <li><a href="https://dhschall.github.io/">David Schall</a></li>
       <li><a href="https://julianpritzi.com/">Julian Pritzi</a></li>
-      <li><a href="https://scholar.google.com/citations?user=lvS6yh0AAAAJ">Nicolai Oswald</a></li>
       <li><a href="https://dse.in.tum.de/bhatotia/">Pramod Bhatotia</a></li>
     </ul>
     <p><a href="https://dse.in.tum.de/">Systems Research Group</a>, Technical University of Munich</p>
