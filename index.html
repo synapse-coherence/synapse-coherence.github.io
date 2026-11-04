@@ -210,6 +210,7 @@ pip install -r requirements.txt
 <span class="cmt"># the SLICC back end</span>
 git clone -b slicc https://github.com/Errare-humanum-est/HeteroGen ../HeteroGen
 cp -r ../HeteroGen/Backend/SLICC/. Backend/SLICC/
+git apply --whitespace=nowarn patches/slicc-backend.patch
 
 python synapse.py generate specs/topologies/smp.yaml --out out/smp</code></pre>
         <button class="copy" type="button">Copy</button>
